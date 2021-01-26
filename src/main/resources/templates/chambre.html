@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymleaf.org" 
+      xlmns:layout="http://www.ultraq.net.nz/thymeleaf/Layout"
+      layout:decorate="layout">
+
+    <head>
+        <title>Liste des chambres</title>             
+    </head>
+
+    <body>
+
+        <div layout:fragment="partie1">
+
+            <table class="table mt-5">
+                <tr class="table-primary">
+                    <th>numChambre</th>
+                    <th>TelChambre</th>
+
+                    <th>
+                        <form action="/user/chambre" method="get">
+                            <div class="form-group">                                  
+                                <input style="width: 80%" type="text" name="numChambre" id="rechercher" value="" placeholder="N° de chambre " />&nbsp;<a id="search-icon-client" href=""><span class="icon-search"></span></a>
+                                <input class="btn  btn-primary" type="submit" id="btn-chercher-client" value="chercher" name="rechercher" />
+                            </div> 
+                        </form>
+                    </th>
+
+
+                </tr>
+                <tr th:each="chambre:${listeChambre}">
+                    <td th:text="${chambre.numChambre}"></td>
+                    <td th:text="${chambre.TelChambre}"></td>
+
+                   <td sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a class="btn btn-primary" th:href="@{/admin/formChambre(numChambre=${chambre.numChambre})}">modifier</a>
+                        <a class="btn btn-danger" onclick="return confirm('voulez vous vraiment supprimer ce client ?')" th:href="@{/admin/deleteChambre(numChambre=${chambre.numChambre},motCle=${mc})}">Supprimer</a>
+                    </td>
+                </tr>
+
+
+            </table>
+
+            <div><a class="btn btn-success" th:href="@{/admin/formChambre}">Ajouter une chambre</a></div>
+
+            <div class="row justify-content-md-center">
+                <ul class="pagination pagination-lg">
+
+
+
+                    <li th:each="p, status:${pages}" th:class=" ${pageActive == status.index } ? 'page-item active' : 'page-item' ">
+                        <a class="page-link " th:href="@{/user/chambre(page=${status.index},numChambre=${numChambre})}" th:text="${status.index +1}" ></a>
+                    </li>
+
+                </ul>
+            </div>
+
+
+        </div>
+
+
+    </body>
+
+</html>

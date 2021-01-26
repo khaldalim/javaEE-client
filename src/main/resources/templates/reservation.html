@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymleaf.org" 
+      xlmns:layout="http://www.ultraq.net.nz/thymeleaf/Layout"
+      layout:decorate="layout">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div layout:fragment="partie1">
+
+            <table class="table mt-5">
+                <tr class="table-primary">
+                    <th>numReserv</th>
+                    <th>dateDebut</th>
+                    <th>dateFin</th>
+                    <th>nom / prenom Client </th>
+                    <th>N° de Chambre</th>
+
+
+                    <th>
+                        <form action="/user/reservation" method="get">
+                            <div class="form-group">                                  
+                                <input style="width: 80%" type="text" name="numReserv" id="rechercher" value="" placeholder="N° de reservation " />&nbsp;<a id="search-icon-client" href=""><span class="icon-search"></span></a>
+                                <input class="btn  btn-primary" type="submit" id="btn-chercher-client" value="chercher" name="rechercher" />
+                            </div> 
+                        </form>
+                    </th>
+
+
+                </tr>
+
+                <tr th:each="reservation:${listeReservation}">
+                    <td th:text="${reservation.numReserv}"></td>
+                    <td th:text="${reservation.dateDebut}"></td>
+                    <td th:text="${reservation.dateFin}"></td>
+                    <td th:text="${reservation.client.nomClient + ' ' + reservation.client.prenomClient} "></td>
+                    <td th:text="${reservation.chambre.numChambre}"></td>
+
+                    <td sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a class="btn btn-primary" th:href="@{/admin/formReservation(numReserv=${reservation.numReserv})}">modifier</a>
+                        <a class="btn btn-danger" onclick="return confirm('voulez vous vraiment supprimer cette reservation ?')" th:href="@{/admin/deleteReservation(numReserv=${reservation.numReserv},numReserv=${numReserv})}">Supprimer</a>
+                    </td>
+                </tr>
+            </table>
+
+            <div><a class="btn btn-success" th:href="@{/admin/formReservation}">Ajouter une reservation</a></div>
+
+            <div class="row justify-content-md-center">
+                <ul class="pagination pagination-lg">
+
+
+                    <li th:each="p, status:${pages}" th:class=" ${pageActive == status.index } ? 'page-item active' : 'page-item' ">
+                        <a class="page-link " th:href="@{/user/reservation(page=${status.index},numReserv=${numReserv})}" th:text="${status.index +1}" ></a>
+                    </li>
+
+                </ul>
+            </div>
+
+
+        </div>
+    </body>
+</html>

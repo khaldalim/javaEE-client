@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymleaf.org" 
+      xlmns:layout="http://www.ultraq.net.nz/thymeleaf/Layout"
+      layout:decorate="layout">
+
+    <head>
+        <title>Liste des clients</title>             
+    </head>
+
+    <body>
+
+        <div layout:fragment="partie1">
+
+            <table class="table mt-5">
+                <tr class="table-primary">
+                    <th>numClient</th>
+                    <th>nomClient</th>
+                    <th>prenomClient</th>
+                    <th>adresseClient</th>
+                    <th>telClient</th>
+                    <th>emailClient</th>
+
+                    <th>
+                        <form action="/user/client" method="get">
+                            <div class="form-group">                                  
+                                <input style="width: 80%" type="text" name="motCle" id="rechercher" value="" placeholder="chercher par nom ?" />&nbsp;<a id="search-icon-client" href=""><span class="icon-search"></span></a>
+                                <input class="btn  btn-primary" type="submit" id="btn-chercher-client" value="chercher" name="rechercher" />
+                            </div> 
+                        </form>
+                    </th>
+
+
+                </tr>
+
+                <tr th:each="client:${listeClient}">
+                    <td th:text="${client.numClient}"></td>
+                    <td th:text="${client.nomClient}"></td>
+                    <td th:text="${client.prenomClient}"></td>
+                    <td th:text="${client.adresseClient}"></td>
+                    <td th:text="${client.telClient}"></td>
+                    <td th:text="${client.emailClient}"></td>
+
+                    <td sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a class="btn btn-primary" th:href="@{/admin/formClient(numClient=${client.numClient})}">modifier</a>
+                        <a class="btn btn-danger" onclick="return confirm('voulez vous vraiment supprimer ce client ?')" th:href="@{/admin/delete(numClient=${client.numClient},motCle=${mc})}">Supprimer</a></td>
+                </tr>
+            </table>
+
+            <div><a class="btn btn-success" th:href="@{/admin/formClient}">Ajouter un client</a></div>
+
+            <div class="row justify-content-md-center">
+                <ul class="pagination pagination-lg">
+
+
+                    <li th:each="p, status:${pages}" th:class=" ${pageActive == status.index } ? 'page-item active' : 'page-item' ">
+                        <a class="page-link " th:href="@{/user/client(page=${status.index},motCle=${mc})}" th:text="${status.index +1}" ></a>
+                    </li>
+
+                </ul>
+            </div>
+
+
+        </div>
+
+
+    </body>
+
+</html>

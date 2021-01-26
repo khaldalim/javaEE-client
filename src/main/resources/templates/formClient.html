@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org" 
+      xlmns:layout="http://www.ultraq.net.nz/thymeleaf/Layout"
+      layout:decorate="layout">
+    <head>
+        <title>Ajouter un client</title>
+    </head>
+    <body>
+        <div layout:fragment="partie1">
+            <div class="container">
+                <div class="mt-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Enregistrement d'un client</div>
+
+                        <div class="panel-body mt-5" >
+                            
+   
+                            <form name="formClient" th:action="@{/admin/insert}" method="POST">
+
+                                <div class="form_group">
+                                    <label for="numClient">numClient</label>
+                                    <input class="form-control" th:value="${client.numClient}" type="text" name="numClient" id="numClient" readonly>
+                                </div>
+
+                                <div class="form_group">
+                                    <label for="nomClient">nomClient</label>
+                                    <input class="form-control" type="text" name="nomClient" th:value="${client.nomClient}" id="nomClient">
+                                    <span class="text-danger" th:errors="${client.nomClient}"></span>
+                                </div>
+
+                                <div class="form_group">
+                                    <label for="prenomClient">prenomClient</label>
+                                    <input class="form-control" type="text" name="prenomClient" th:value="${client.prenomClient}"  id="prenomClient">
+                                    <span class="text-danger" th:errors="${client.prenomClient}"></span>
+                                </div>
+                                <div class="form_group">
+                                    <label for="adresseClient">adresseClient</label>
+                                    <input class="form-control" type="text" name="adresseClient" th:value="${client.adresseClient}"  id="adresseClient">
+                                    <span class="text-danger" th:errors="${client.adresseClient}"></span>
+                                </div>
+                                <div class="form_group">
+                                    <label for="telClient">telClient</label>
+                                    <input class="form-control" type="text" name="telClient" th:value="${client.telClient}"  id="telClient">
+                                    <span class="text-danger" th:errors="${client.telClient}"></span>
+                                </div>
+                                <div class="form_group">
+                                    <label for="emailClient">emailClient</label>
+                                    <input class="form-control" type="text" name="emailClient" th:value="${client.emailClient}"  id="emailClient">
+                                    <span class="text-danger" th:errors="${client.emailClient}"></span>
+                                </div>
+
+                                <button type="submit" class="btn btn-success">insert</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

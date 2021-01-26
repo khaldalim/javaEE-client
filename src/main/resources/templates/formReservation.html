@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymleaf.org" 
+      xlmns:layout="http://www.ultraq.net.nz/thymeleaf/Layout"
+      layout:decorate="layout">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div layout:fragment="partie1">
+            <div class="container">
+                <div class="mt-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Enregistrement d'une reservation</div>
+
+                        <div class="panel-body mt-5" >
+
+
+                            <form name="formClient" th:action="@{/admin/insertReservation}" method="POST">
+
+                                <div class="form_group">
+                                    <label for="numReserv">numReserv</label>
+                                    <input class="form-control" th:value="${reservation.numReserv}" type="text" name="numReserv" id="numReserv" readonly>
+                                </div>
+
+                                <div class="form_group">
+                                    <label for="dateDebut">dateDebut</label>
+                                    <input class="form-control" type="date" name="dateDebut" th:value="${reservation.dateDebut}" id="dateDebut">
+                                    <span class="text-danger" th:errors="${reservation.dateDebut}"></span>
+                                </div>
+
+                                <div class="form_group">
+                                    <label for="dateFin">dateFin</label>
+                                    <input class="form-control" type="date" name="dateFin" th:value="${reservation.dateFin}"  id="dateFin">
+                                    <span class="text-danger" th:errors="${reservation.dateFin}"></span>
+                                </div>
+
+                                                               
+
+                                <div class="form_group">
+                                     <label for="numClient">numClient</label>
+                                    <select class="form-control" th:field="${reservation.client}" name="numClient" id="numClient">
+                                        <option th:each="client:${listeClient}" th:value="${client.numClient}" th:text="${client.nomClient + ' ' + client.prenomClient}"></option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form_group">
+                                     <label for="numChambre">numChambre</label>
+                                    <select class="form-control" th:field="${reservation.chambre}" name="numChambre" id="numChambre">
+                                        <option th:each="chambre:${listeChambre}" th:value="${chambre.numChambre}" th:text="${chambre.numChambre}"></option>
+                                    </select>
+                                </div>
+                                                              
+
+                                <button type="submit" class="btn btn-success">insert</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
